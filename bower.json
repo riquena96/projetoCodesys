@@ -1,0 +1,29 @@
+{
+  "name": "projetosCodesys",
+  "description": "Frontend de gerenciador de projetos",
+  "main": "",
+  "authors": [
+    "Henrique Riquena <henriqueriquena@hotmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "resources/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.6.3",
+    "angular-route": "^1.6.3",
+    "angular-resource": "^1.6.3",
+    "angular-animate": "^1.6.3",
+    "angular-messages": "^1.6.3",
+    "angular-bootstrap": "^2.5.0",
+    "angular-strap": "^2.3.12",
+    "bootstrap": "^3.3.7",
+    "angular-oauth2": "3.0.1"
+  }
+}
