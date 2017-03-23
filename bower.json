@@ -25,6 +25,7 @@
     "angular-strap": "2.2.4",
     "bootstrap": "3.3.5",
     "angular-oauth2": "^4.0.0",
-    "angular-cookies": "1.4.1"
+    "angular-cookies": "1.4.1",
+    "jquery": "3.2.1"
   }
 }

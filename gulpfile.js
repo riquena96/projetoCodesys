@@ -47,6 +47,34 @@ config.vendor_path_css = [
 /*definindo o caminho do html da pasta PUBLIC */
 config.build_path_html = config.build_path + '/views';
 
+/*definindo o caminho das fonts da pasta PUBLIC */
+config.build_path_font = config.build_path + '/fonts';
+
+/*definindo o caminho das imagens da pasta PUBLIC */
+config.build_path_image = config.build_path + '/images';
+
+/* definir a tarefa para copiar as fonts */
+gulp.task('copy-font', function(){
+    // indicando as fonts que quero copiar
+    gulp.src([
+        config.assets_path + '/fonts/**/*'
+    ])
+    //copiar para build_path_html
+        .pipe(gulp.dest(config.build_path_font))
+        .pipe(liveReload());
+});
+
+/* definir a tarefa para copiar as imagens */
+gulp.task('copy-image', function(){
+    // indicando as imagens que quero copiar
+    gulp.src([
+        config.assets_path + '/images/**/*'
+    ])
+    //copiar para build_path_html
+        .pipe(gulp.dest(config.build_path_image))
+        .pipe(liveReload());
+});
+
 /* definir a tarefa para copiar os htmls */
 gulp.task('copy-html', function(){
     // indicando os htmls que quero copiar
@@ -100,7 +128,7 @@ gulp.task('clear-build-folder', function () {
 
 // criando o comando default do gulp
 gulp.task('default', ['clear-build-folder'], function () {
-    gulp.start('copy-html');
+    gulp.start('copy-html', 'copy-font', 'copy-image');
     elixir(function (mix) {
         mix.styles(config.vendor_path_css.concat([config.assets_path + '/css/**/*.css']),
         'public/css/all.css', config.assets_path);
@@ -113,6 +141,8 @@ gulp.task('default', ['clear-build-folder'], function () {
 //criando a rotina para assistir as alterações e copiar os arquivos alterados
 gulp.task('watch-dev', ['clear-build-folder'], function () {
     liveReload.listen();
-    gulp.start('copy-styles', 'copy-scripts', 'copy-html');
-    gulp.watch(config.assets_path + '/**', ['copy-styles', 'copy-scripts', 'copy-html']);
+    gulp.start('copy-styles', 'copy-scripts', 'copy-html', 'copy-font', 'copy-image');
+    gulp.watch(config.assets_path + '/**', [
+        'copy-styles', 'copy-scripts', 'copy-html'
+    ]);
 });
