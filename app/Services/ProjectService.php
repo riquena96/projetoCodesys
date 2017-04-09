@@ -73,5 +73,21 @@ class ProjectService {
         
         $this->storage->put($projectFile->id .".". $data['extension'], $this->filesystem->get($data['file']));        
     }
+
+    public function delete($id)
+    {
+        try{
+            $this->repository->delete($id);
+            return [
+                'error' => false,
+                'message' => 'Deletado com sucesso'
+            ];
+        }catch(\Exception $e){
+            return [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
     
 }

@@ -44,8 +44,7 @@ class ProjectController extends Controller {
         if($this->checkProjectOwner($id) == false) {
             return ['error' => 'Access Forbidden'];
         }
-        
-        return $this->repository->delete($id);
+        return $this->service->delete($id);
     }
 
     public function update(Request $request, $id) {

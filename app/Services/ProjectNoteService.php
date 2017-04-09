@@ -48,16 +48,34 @@ class ProjectNoteService {
         }
     }
 
-    public function update(array $data, $id) {
-
-        try {
+    public function update(array $data, $id){
+        try{
             $this->validator->with($data)->passesOrFail();
-
             return $this->repository->update($data, $id);
-        } catch (ValidatorException $e) {
-            return [
+        } catch(ModelNotFoundException $e){
+            return[
                 'error' => true,
-                'message' => $e->getMessageBag(),
+                'message' => $e->getMessage()
+            ];
+        } catch(ValidatorException $e){
+            return[
+                'error' => true,
+                'message' => $e->getMessageBag()
+            ];
+        }
+    }
+
+    public function delete($id){
+        try{
+            $this->repository->delete($id);
+            return[
+                'error' => false,
+                'message' => 'Deletado com sucesso'
+            ];
+        }catch(\Exception $e){
+            return[
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
     }
