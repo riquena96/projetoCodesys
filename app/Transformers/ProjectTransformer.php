@@ -1,10 +1,22 @@
 <?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 namespace CodeProject\Transformers;
+
 use CodeProject\Entities\Project;
 use League\Fractal\TransformerAbstract;
+
 class ProjectTransformer extends TransformerAbstract
 {
-    protected $defaultIncludes = ['members','client'];
+
+    protected $defaultIncludes = ['members', 'client'];
+
+
     public function transform(Project $project)
     {
         return [
@@ -13,15 +25,19 @@ class ProjectTransformer extends TransformerAbstract
             'owner_id' => $project->owner_id,
             'name' => $project->name,
             'description' => $project->description,
-            'progress' => (int) $project->progress,
-            'status' => $project->status,
+            'progress' =>(int) $project->progress,
+            'status' =>  $project->status,
             'due_date' => $project->due_date,
+            'created_at' => $project->created_at,
+            'updated_at' => $project->updated_at,
         ];
     }
+
     public function includeMembers(Project $project)
     {
         return $this->collection($project->members, new ProjectMemberTransformer());
     }
+
     public function includeClient(Project $project)
     {
         if($project->client) {
@@ -29,4 +45,6 @@ class ProjectTransformer extends TransformerAbstract
         }
         return null;
     }
+
+
 }
