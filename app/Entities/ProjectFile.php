@@ -15,10 +15,15 @@ class ProjectFile extends Model implements Transformable
         'description',
         'extension',
     ];
-    
+
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function getFileName()
+    {
+        return $this->id. '.' . $this->extension;
     }
 
 }

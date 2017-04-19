@@ -66,13 +66,7 @@ class ProjectService {
         }
     }
     
-    public function createFile(array $data)
-    {
-        $project = $this->repository->skipPresenter()->find($data['project_id']);
-        $projectFile = $project->files()->create($data);
-        
-        $this->storage->put($projectFile->id .".". $data['extension'], $this->filesystem->get($data['file']));        
-    }
+
 
     public function delete($id)
     {
@@ -88,6 +82,26 @@ class ProjectService {
                 'message' => $e->getMessage()
             ];
         }
+    }
+
+    public function checkProjectOwner($projectId) {
+        $userId = \Authorizer::getResourceOwnerId();
+
+        return $this->repository->isOwner($projectId, $userId);
+    }
+
+    public function checkProjectMember($projectId) {
+        $userId = \Authorizer::getResourceOwnerId();
+
+        return $this->repository->hasMember($projectId, $userId);
+    }
+
+    public function checkProjectPermissions($projectId)
+    {
+        if ($this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)){
+            return true;
+        }
+        return false;
     }
     
 }
