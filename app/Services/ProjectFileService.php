@@ -5,7 +5,6 @@ namespace CodeProject\Services;
 use \CodeProject\Repositories\ProjectFileRepository;
 use \CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectFileValidator;
-use Illuminate\Routing\Matching\ValidatorInterface;
 use \Prettus\Validator\Exceptions\ValidatorException;
 
 use Illuminate\Filesystem\Filesystem;
@@ -112,54 +111,6 @@ class ProjectFileService {
                 return $this->storage->getDriver()->getAdapter()->getPathPrefix()
                     . "/" . $projectFile->getFileName();
         }
-    }
-
-    /*public function createFile(array $data)
-    {
-        $project = $this->repository->skipPresenter()->find($data['project_id']);
-        $projectFile = $project->files()->create($data);
-        
-        $this->storage->put($projectFile->id .".". $data['extension'], $this->filesystem->get($data['file']));        
-    }
-
-    public function delete($id)
-    {
-        try{
-            $this->repository->delete($id);
-            return [
-                'error' => false,
-                'message' => 'Deletado com sucesso'
-            ];
-        }catch(\Exception $e){
-            return [
-                'error' => true,
-                'message' => $e->getMessage()
-            ];
-        }
-    }*/
-
-    public function checkProjectOwner($projectFileId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        $projectId = $this->repository->skipPresenter()->find($projectFileId)->project_id;
-
-        return $this->projectRepository->isOwner($projectId, $userId);
-    }
-
-    public function checkProjectMember($projectFileId)
-    {
-        $userId = \Authorizer::getResourceOwnerId();
-        $projectId = $this->repository->skipPresenter()->find($projectFileId)->project_id;
-
-        return $this->projectRepository->hasMember($projectId, $userId);
-    }
-
-    public function checkProjectPermissions($projectFileId)
-    {
-        if ($this->checkProjectOwner($projectFileId) or $this->checkProjectMember($projectFileId)){
-            return true;
-        }
-        return false;
     }
     
 }

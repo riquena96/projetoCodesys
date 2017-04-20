@@ -5,7 +5,8 @@ angular.module('app.services')
             return $resource(url, {
                 id: '@id',
                 idFile: '@idFile'
-            }, {
+            },
+                {
                 update: {
                     method: 'PUT'
                 },

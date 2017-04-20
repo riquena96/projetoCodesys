@@ -29,22 +29,29 @@ Route::group(['middleware' => 'oauth'], function() {
     Route::resource('project', 'ProjectController', ['exception' => 'create', 'edit']);
 
     //Project Group
-    Route::group(['prefix' => 'project'], function () {
+    Route::group(['middleware' => 'check.project.permission', 'prefix' => 'project'], function () {
 
         //ProjectNote
         Route::get('{id}/note', 'ProjectNoteController@index');
         Route::post('{id}/note/', 'ProjectNoteController@store');
-        Route::put('note/{noteId}', 'ProjectNoteController@update');
+        Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
         Route::get('{id}/note/{noteId}', 'ProjectNoteController@show');
-        Route::delete('note/{id}', 'ProjectNoteController@destroy');
+        Route::delete('{id}/note/{noteId}', 'ProjectNoteController@destroy');
 
         //ProjectFile
         Route::get('{id}/file', 'ProjectFileController@index');
-        Route::get('file/{fileId}', 'ProjectFileController@show');
-        Route::get('file/{fileId}/download', 'ProjectFileController@showfile');
+        Route::get('{id}/file/{fileId}', 'ProjectFileController@show');
+        Route::get('{id}/file/{fileId}/download', 'ProjectFileController@showfile');
         Route::post('{id}/file', 'ProjectFileController@store');
-        Route::put('file/{fileId}', 'ProjectFileController@update');
-        Route::delete('file/{fileId}', 'ProjectFileController@destroy');
+        Route::put('{id}/file/{fileId}', 'ProjectFileController@update');
+        Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
+
+        //ProjectTask
+        Route::get('{id}/task', 'ProjectTaskController@index');
+        Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
+        Route::post('{id}/taskTask', 'ProjectTaskController@store');
+        Route::put('{id}/task/{taskId}', 'ProjectTaskController@update');
+        Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');
     });
 
     Route::get('user/authenticated', 'UserController@authenticated');

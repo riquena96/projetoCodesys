@@ -15,13 +15,13 @@ use \Prettus\Validator\LaravelValidator;
  *
  * @author henri
  */
-class ProjectNoteValidator extends LaravelValidator 
+class ProjectTaskValidator extends LaravelValidator
 {
     
     protected $rules = [
 
-        'title' => 'required',
-        'note' => 'required',
+        'name' => 'required',
+        'status' => 'required',
     ];
     
 }

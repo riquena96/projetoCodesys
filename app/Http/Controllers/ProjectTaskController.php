@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use \CodeProject\Repositories\ProjectNoteRepository;
 use \CodeProject\Services\ProjectNoteService;
 
-class ProjectNoteController extends Controller
+class ProjectTaskController extends Controller
 {
 
     /**
@@ -48,7 +48,7 @@ class ProjectNoteController extends Controller
         return $result;
     }
 
-    public function destroy($id, $noteId)
+    public function destroy($noteId)
     {
         return $this->service->delete($noteId);
     }
