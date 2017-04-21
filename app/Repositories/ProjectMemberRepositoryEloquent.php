@@ -2,17 +2,17 @@
 
 namespace CodeProject\Repositories;
 
-use CodeProject\Presenters\ProjectTaskPresenter;
-use CodeProject\Validators\ProjectTaskValidator;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use CodeProject\Entities\ProjectTask;
+use CodeProject\Repositories\ProjectMemberRepository;
+use CodeProject\Entities\ProjectMember;
+use CodeProject\Validators\ProjectMemberValidator;
 
 /**
- * Class ProjectTaskRepositoryEloquent
+ * Class ProjectMemberRepositoryEloquent
  * @package namespace CodeProject\Repositories;
  */
-class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTaskRepository
+class ProjectMemberRepositoryEloquent extends BaseRepository implements ProjectMemberRepository
 {
     /**
      * Specify Model class name
@@ -21,13 +21,10 @@ class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTas
      */
     public function model()
     {
-        return ProjectTask::class;
+        return ProjectMember::class;
     }
 
-    public function presenter()
-    {
-        return ProjectTaskPresenter::class;
-    }
+    
 
     /**
      * Boot up the repository, pushing criteria
@@ -35,10 +32,5 @@ class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTas
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
-    }
-
-    public function validator()
-    {
-        return ProjectTaskValidator::class;
     }
 }

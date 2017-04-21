@@ -49,7 +49,7 @@ Route::group(['middleware' => 'oauth'], function() {
         //ProjectTask
         Route::get('{id}/task', 'ProjectTaskController@index');
         Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
-        Route::post('{id}/taskTask', 'ProjectTaskController@store');
+        Route::post('{id}/task', 'ProjectTaskController@store');
         Route::put('{id}/task/{taskId}', 'ProjectTaskController@update');
         Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');
     });

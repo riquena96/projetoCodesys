@@ -3,23 +3,23 @@
 namespace CodeProject\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \CodeProject\Repositories\ProjectNoteRepository;
-use \CodeProject\Services\ProjectNoteService;
+use \CodeProject\Repositories\ProjectTaskRepository;
+use \CodeProject\Services\ProjectTaskService;
 
 class ProjectTaskController extends Controller
 {
 
     /**
-     * @var ProjectNoteService
+     * @var ProjectTaskService
      */
     private $service;
 
     /**
-     * @var ProjectNoteRepository
+     * @var ProjectTaskRepository
      */
     private $repository;
 
-    public function __construct(ProjectNoteRepository $repository, ProjectNoteService $service)
+    public function __construct(ProjectTaskRepository $repository, ProjectTaskService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
@@ -27,7 +27,7 @@ class ProjectTaskController extends Controller
 
     public function index($id)
     {
-        return $this->repository->findWhere(['project_id' => $id]);
+        return $this->repository->skipPresenter()->findWhere(['project_id' => $id]);
     }
 
     public function store(Request $request, $id)
@@ -37,27 +37,21 @@ class ProjectTaskController extends Controller
         return $this->service->create($data);
     }
 
-    public function show($id, $noteId)
+    public function show($id, $idTask)
     {
-        $result = $this->repository->findWhere(['project_id' => $id, 'id' => $noteId]);
-        if(isset($result['data']) && count($result['data']) == 1){
-            $result = [
-                'data' => $result['data'][0]
-            ];
-        }
-        return $result;
+        return $this->repository->find($idTask);
     }
 
-    public function destroy($noteId)
+    public function destroy($id, $idTask)
     {
-        return $this->service->delete($noteId);
+        $this->service->delete($idTask);
     }
 
-    public function update(Request $request, $id, $noteId)
+    public function update(Request $request, $id, $idTask)
     {
         $data = $request->all();
         $data['project_id'] = $id;
-        return $this->service->update($data, $noteId);
+        return $this->service->update($data, $idTask);
     }
 
 }

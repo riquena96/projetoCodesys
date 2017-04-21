@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectFilesTable extends Migration
+class CreateProjectMembersTable extends Migration
 {
 
 	/**
@@ -13,7 +13,7 @@ class CreateProjectFilesTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('project_files', function(Blueprint $table) {
+		Schema::create('project_members', function(Blueprint $table) {
             $table->increments('id');
 
             $table->timestamps();
@@ -27,7 +27,7 @@ class CreateProjectFilesTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('project_files');
+		Schema::drop('project_members');
 	}
 
 }
