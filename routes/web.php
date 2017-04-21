@@ -23,10 +23,13 @@ Route::post('oauth/access_token', function () {
 Route::group(['middleware' => 'oauth'], function() {
 
     //Client
-    Route::resource('client', 'ClientController', ['exception' => 'create', 'edit']);
+    Route::resource('client', 'ClientController', ['except' => 'create', 'edit']);
 
     //Project
-    Route::resource('project', 'ProjectController', ['exception' => 'create', 'edit']);
+    Route::resource('project', 'ProjectController', ['except' => 'create', 'edit']);
+
+    //ProjectMember
+    Route::resource('project.member', 'ProjectMemberController', ['except' => 'create', 'edit', 'update']);
 
     //Project Group
     Route::group(['middleware' => 'check.project.permission', 'prefix' => 'project'], function () {
@@ -55,4 +58,5 @@ Route::group(['middleware' => 'oauth'], function() {
     });
 
     Route::get('user/authenticated', 'UserController@authenticated');
+    Route::resource('user', 'UserController', ['except' => 'create', 'edit']);
 });

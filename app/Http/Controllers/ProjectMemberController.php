@@ -3,58 +3,48 @@
 namespace CodeProject\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \CodeProject\Repositories\ProjectRepository;
-use \CodeProject\Services\ProjectService;
+use \CodeProject\Repositories\ProjectMemberRepository;
+use \CodeProject\Services\ProjectMemberService;
 
 class ProjectMemberController extends Controller {
 
     /**
-     * @var ProjectService
+     * @var ProjectMemberService
      */
     private $service;
 
     /**
-     * @var ProjectRepository
+     * @var ProjectMemberRepository
      */
     private $repository;
 
-    public function __construct(ProjectRepository $repository, ProjectService $service) {
+    public function __construct(ProjectMemberRepository $repository, ProjectMemberService $service) {
         $this->repository = $repository;
         $this->service = $service;
-        $this->middleware('check.project.owner', ['except' => ['index', 'store', 'show']]);
-        $this->middleware('check.project.permission', ['except' => ['index', 'store', 'update', 'destroy']]);
+        $this->middleware('check.project.owner', ['except' => ['index', 'show']]);
+        $this->middleware('check.project.permission', ['except' => ['store', 'destroy']]);
     }
 
-    public function index() {
-        return $this->repository->findWithOwnerAndMember(\Authorizer::getResourceOwnerId());
+    public function index($id)
+    {
+        return $this->repository->findWhere(['project_id' => $id]);
     }
 
-    public function store(Request $request) {
-        return $this->service->create($request->all());
+    public function store(Request $request, $id)
+    {
+        $data = $request->all();
+        $data['project_id'] = $id;
+        return $this->service->create($data);
     }
 
-    public function show($id) {
-
-        if($this->service->checkProjectPermissions($id) == false) {
-            return ['error' => 'Access Forbidden'];
-        }
-        return $this->repository->find($id);
+    public function show($id, $idProjectMember)
+    {
+        return $this->repository->find($idProjectMember);
     }
 
-    public function destroy($id) {
-        
-        if($this->service->checkProjectOwner($id) == false) {
-            return ['error' => 'Access Forbidden'];
-        }
-        return $this->service->delete($id);
+    public function destroy($id, $idProjectMember)
+    {
+        $this->service->delete($idProjectMember);
     }
 
-    public function update(Request $request, $id) {
-        
-        if($this->service->checkProjectOwner($id) == false) {
-            return ['error' => 'Access Forbidden'];
-        }
-        
-        return $this->service->update($request->all(), $id);
-    }
 }

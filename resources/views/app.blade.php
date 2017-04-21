@@ -110,6 +110,9 @@
     <script src="{{asset('build/js/controllers/project-task/projectTaskEdit.js')}}"></script>
     <script src="{{asset('build/js/controllers/project-task/projectTaskRemove.js')}}"></script>
 
+    <script src="{{asset('build/js/controllers/project-member/projectMemberList.js')}}"></script>
+    <script src="{{asset('build/js/controllers/project-member/projectMemberRemove.js')}}"></script>
+
     {{-- Directives --}}
     <script src="{{asset('build/js/directives/projectFileDownload.js')}}"></script>
 
@@ -122,6 +125,7 @@
     <script src="{{asset('build/js/services/project.js')}}"></script>
     <script src="{{asset('build/js/services/projectNote.js')}}"></script>
     <script src="{{asset('build/js/services/projectTask.js')}}"></script>
+    <script src="{{asset('build/js/services/projectMember.js')}}"></script>
     <script src="{{asset('build/js/services/projectFile.js')}}"></script>
     <script src="{{asset('build/js/services/user.js')}}"></script>
 @else

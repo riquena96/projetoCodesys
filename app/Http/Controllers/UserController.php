@@ -22,4 +22,10 @@ class UserController extends Controller
         $userId = Authorizer::getResourceOwnerId();
         return $this->repository->find($userId);
     }
+
+    public function index()
+    {
+        return $this->repository->all();
+    }
+
 }
