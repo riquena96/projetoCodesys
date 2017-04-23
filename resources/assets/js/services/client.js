@@ -4,5 +4,8 @@ angular.module('app.services')
             update: {
                 method: 'PUT'
             },
+            query: {
+                isArray: false
+            }
         });
     }])

@@ -1,6 +1,8 @@
 var app = angular.module('myApp', [
     'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives',
-    "ui.bootstrap.typeahead", "ui.bootstrap.datepicker", "ui.bootstrap.tpls", 'ngFileUpload'
+    "ui.bootstrap.typeahead", "ui.bootstrap.datepicker", "ui.bootstrap.tpls", 'ui.bootstrap.modal',
+    'ngFileUpload', 'http-auth-interceptor', 'angularUtils.directives.dirPagination',
+    'mgcrea.ngStrap.navbar', 'ui.bootstrap.dropdown',
 ]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
@@ -19,8 +21,8 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamS
                 {value: 3, label: 'Concluído'},
             ]
         },
-        projectTask:{
-            status:[
+        projectTask: {
+            status: [
                 {value: 1, label: 'Incompleta'},
                 {value: 2, label: 'Completa'},
             ]
@@ -30,18 +32,18 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamS
         },
 
         utils: {
-            transformRequest: function(data){
-                if(angular.isObject(data)){
+            transformRequest: function (data) {
+                if (angular.isObject(data)) {
                     return $httpParamSerializerProvider.$get()(data);
                 }
                 return data;
             },
-            transformResponse: function(data, headers){
+            transformResponse: function (data, headers) {
                 var headersGetter = headers();
                 if (headersGetter['content-type'] == 'application/json' ||
                     headersGetter['content-type'] == 'text/json') {
                     var dataJson = JSON.parse(data);
-                    if (dataJson.hasOwnProperty('data')) {
+                    if (dataJson.hasOwnProperty('data') && Object.keys(dataJson).length == 1) {
                         dataJson = dataJson.data;
                     }
                     return dataJson;
@@ -60,55 +62,86 @@ app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamS
 }]);
 
 app.config([
-    '$routeProvider', '$httpProvider', 'OAuthProvider', 'OAuthTokenProvider', 'appConfigProvider',
-    function ($routeProvider, $httpProvider, OAuthProvider, OAuthTokenProvider, appConfigProvider) {
+    '$routeProvider', '$httpProvider', 'OAuthProvider',
+    'OAuthTokenProvider', 'appConfigProvider',
+    function ($routeProvider, $httpProvider, OAuthProvider,
+              OAuthTokenProvider, appConfigProvider) {
         $httpProvider.defaults.headers.post['Content-Type'] =
             'application/x-www-form-urlencoded;charset=utf-8';
         $httpProvider.defaults.headers.put['Content-Type'] =
             'application/x-www-form-urlencoded;charset=utf-8';
         $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
         $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
+        $httpProvider.interceptors.splice(0,1);
+        $httpProvider.interceptors.splice(0,1);
+        $httpProvider.interceptors.push('oauthFixInterceptor');
 
         $routeProvider
             .when('/login', {
                 templateUrl: 'build/views/login.html',
                 controller: 'LoginController'
             })
+            .when('/logout', {
+                resolve: {
+                    logout: ['$location', 'OAuthToken', function ($location, OAuthToken) {
+                        OAuthToken.removeToken();
+                        return $location.path('/login');
+                    }]
+                }
+            })
             .when('/home', {
                 templateUrl: 'build/views/home.html',
-                controller: 'HomeController'
+                controller: 'HomeDashboardController'
+            })
+            .when('/clients/dashboard', {
+                templateUrl: 'build/views/client/dashboard.html',
+                controller: 'ClientDashboardController',
+                title: 'Clientes'
             })
             .when('/clients', {
                 templateUrl: 'build/views/client/list.html',
-                controller: 'ClientListController'
+                controller: 'ClientListController',
+                title: 'Clientes'
             })
             .when('/clients/new', {
                 templateUrl: 'build/views/client/new.html',
-                controller: 'ClientNewController'
+                controller: 'ClientNewController',
+                title: 'Clientes'
             })
             .when('/clients/:id/edit', {
                 templateUrl: 'build/views/client/edit.html',
-                controller: 'ClientEditController'
+                controller: 'ClientEditController',
+                title: 'Clientes'
             })
             .when('/clients/:id/remove', {
                 templateUrl: 'build/views/client/remove.html',
-                controller: 'ClientRemoveController'
+                controller: 'ClientRemoveController',
+                title: 'Clientes'
+            })
+            .when('/projects/dashboard', {
+                templateUrl: 'build/views/project/dashboard.html',
+                controller: 'projectDashboardController',
+                title: 'Projetos'
             })
             .when('/projects', {
                 templateUrl: 'build/views/project/list.html',
-                controller: 'ProjectListController'
+                controller: 'ProjectListController',
+                title: 'Projetos'
             })
-            .when('/projects/new', {
+            .when('/project/new', {
                 templateUrl: 'build/views/project/new.html',
-                controller: 'ProjectNewController'
+                controller: 'ProjectNewController',
+                title: 'Projetos'
             })
-            .when('/projects/:id/edit', {
+            .when('/project/:id/edit', {
                 templateUrl: 'build/views/project/edit.html',
-                controller: 'ProjectEditController'
+                controller: 'ProjectEditController',
+                title: 'Projetos'
             })
-            .when('/projects/:id/remove', {
+            .when('/project/:id/remove', {
                 templateUrl: 'build/views/project/remove.html',
-                controller: 'ProjectRemoveController'
+                controller: 'ProjectRemoveController',
+                title: 'Projetos'
             })
             .when('/project/:id/notes', {
                 templateUrl: 'build/views/project-note/list.html',
@@ -186,19 +219,41 @@ app.config([
         })
     }]);
 
-app.run(['$rootScope', '$window', 'OAuth', function ($rootScope, $window, OAuth) {
-    $rootScope.$on('oauth:error', function (event, rejection) {
-        // Ignore `invalid_grant` error - should be catched on `LoginController`.
-        if ('invalid_grant' === rejection.data.error) {
-            return;
-        }
+app.run(['$rootScope', '$location', '$http', '$modal', 'httpBuffer', 'OAuth',
+    function ($rootScope, $location, $http, $modal, httpBuffer, OAuth) {
 
-        // Refresh token when a `invalid_token` error occurs.
-        if ('invalid_token' === rejection.data.error) {
-            return OAuth.getRefreshToken();
-        }
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
+            if (next.$$route.originalPath != '/login') {
+                if (!OAuth.isAuthenticated()) {
+                    $location.path('/login');
+                }
+            }
+        });
 
-        // Redirect to `/login` with the `error_reason`.
-        return $window.location.href = '/login?error_reason=' + rejection.data.error;
-    });
-}]);
+        $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+            $rootScope.pageTitle = current.$$route.title;
+        });
+
+        $rootScope.$on('oauth:error', function (event, data) {
+            // Ignore `invalid_grant` error - should be catched on `LoginController`.
+            if ('invalid_grant' === data.rejection.data.error) {
+                return;
+            }
+
+            // Refresh token when a `invalid_token` error occurs.
+            if ('access_denied' === data.rejection.data.error) {
+                httpBuffer.append(data.rejection.config, data.deferred);
+                if(!$rootScope.loginModalOpened){
+                    var modalInstance = $modal.open({
+                        templateUrl: 'build/views/templates/loginModal.html',
+                        controller: 'LoginModalController'
+                    });
+                    $rootScope.loginModalOpened = true;
+                }
+                return;
+            }
+
+            // Redirect to `/login` with the `error_reason`.
+            return $location.path('login');
+        });
+    }]);

@@ -9,6 +9,8 @@ use CodeProject\Entities\Client;
 class ClientTransformer extends TransformerAbstract
 {
 
+    protected $defaultIncludes = ['projects'];
+
     public function transform(Client $client)
     {
         return [
@@ -22,5 +24,12 @@ class ClientTransformer extends TransformerAbstract
             'created_at' => $client->created_at,
             'updated_at' => $client->updated_at,
         ];
+    }
+
+    public function includeProjects(Client $client)
+    {
+        $transformer = new ProjectTransformer();
+        $transformer->setDefaultIncludes([]);
+        return $this->collection($client->project, $transformer);
     }
 }
