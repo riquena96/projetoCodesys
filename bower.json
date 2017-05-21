@@ -29,6 +29,9 @@
     "jquery": "3.2.1",
     "ng-file-upload": "7.0.17",
     "angular-http-auth": "^1.5.0",
-    "angularUtils-pagination": "angular-utils-pagination#^0.11.1"
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.1",
+    "pusher-js": "pusher#^4.1.0",
+    "pusher-angular": "^0.1.9",
+    "angular-ui-notification": "^0.3.6"
   }
 }

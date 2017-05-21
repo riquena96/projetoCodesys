@@ -2,7 +2,7 @@ var app = angular.module('myApp', [
     'ngRoute', 'angular-oauth2', 'app.controllers', 'app.services', 'app.filters', 'app.directives',
     "ui.bootstrap.typeahead", "ui.bootstrap.datepicker", "ui.bootstrap.tpls", 'ui.bootstrap.modal',
     'ngFileUpload', 'http-auth-interceptor', 'angularUtils.directives.dirPagination',
-    'mgcrea.ngStrap.navbar', 'ui.bootstrap.dropdown',
+    'mgcrea.ngStrap.navbar', 'ui.bootstrap.dropdown', 'pusher-angular', 'ui-notification',
 ]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
@@ -14,6 +14,7 @@ angular.module('app.services', ['ngResource']);
 app.provider('appConfig', ['$httpParamSerializerProvider', function ($httpParamSerializerProvider) {
     var config = {
         baseUrl: 'http://127.0.0.1:8000',
+        pusherKey: '3062b8e447a1668a421a',
         project: {
             status: [
                 {value: 1, label: 'Não iniciado'},
@@ -91,7 +92,7 @@ app.config([
             })
             .when('/home', {
                 templateUrl: 'build/views/home.html',
-                controller: 'HomeDashboardController'
+                controller: 'HomeController'
             })
             .when('/clients/dashboard', {
                 templateUrl: 'build/views/client/dashboard.html',
@@ -219,8 +220,35 @@ app.config([
         })
     }]);
 
-app.run(['$rootScope', '$location', '$http', '$modal', 'httpBuffer', 'OAuth',
-    function ($rootScope, $location, $http, $modal, httpBuffer, OAuth) {
+app.run(['$rootScope', '$location', '$http', '$modal', '$cookies', '$pusher', 'httpBuffer', 'OAuth', 'appConfig', 'Notification',
+    function ($rootScope, $location, $http, $modal, $cookies, $pusher, httpBuffer, OAuth, appConfig, Notification) {
+
+        $rootScope.$on('pusher-build', function (event, data) {
+            if (data.next.$$route.originalPath != '/login') {
+                if (OAuth.isAuthenticated()) {
+                    if (!window.client) {
+                        window.client = new Pusher(appConfig.pusherKey);
+                        var pusher = $pusher(window.client);
+                        var channel = pusher.subscribe('user.' + $cookies.getObject('user').id);
+                        channel.bind('CodeProject\\Events\\TaskWasIncluded',
+                            function (data) {
+                                var nome = data.task.name;
+                                Notification.success('Tarefa '+ nome +' foi incluída!');
+                            }
+                        );
+                    }
+                }
+            }
+        });
+
+        $rootScope.$on('pusher-destroy', function (event, data) {
+            if (data.next.$$route.originalPath == '/login') {
+                if (window.client) {
+                    window.client.disconnect();
+                    window.client = null;
+                }
+            }
+        });
 
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
             if (next.$$route.originalPath != '/login') {
@@ -228,6 +256,8 @@ app.run(['$rootScope', '$location', '$http', '$modal', 'httpBuffer', 'OAuth',
                     $location.path('/login');
                 }
             }
+            $rootScope.$emit('pusher-build', {next: next});
+            $rootScope.$emit('pusher-destroy', {next: next});
         });
 
         $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {

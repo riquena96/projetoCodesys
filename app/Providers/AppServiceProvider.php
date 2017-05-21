@@ -2,6 +2,9 @@
 
 namespace CodeProject\Providers;
 
+use CodeProject\Entities\ProjectTask;
+use CodeProject\Events\TaskWasIncluded;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,7 +17,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+        ProjectTask::created(function($task){
+            Event::fire(new TaskWasIncluded($task));
+        });
+
+        ProjectTask::updated(function ($task) {
+            Event::fire(new TaskWasIncluded($task));
+        });
     }
 
     /**
