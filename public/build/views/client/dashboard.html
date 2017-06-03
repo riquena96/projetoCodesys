@@ -10,7 +10,7 @@
                                     Clientes
 
                                     <div class="btn-group pull-right">
-                                        <label class="select-styled select-styled-default select-styled-sm">
+                                        <!--label class="select-styled select-styled-default select-styled-sm">
                                             <select>
                                                 <option selected="selected">A</option>
                                                 <option>B</option>
@@ -19,7 +19,10 @@
                                                 <option>E</option>
                                                 <option>F</option>
                                             </select>
-                                        </label>
+                                        </label-->
+                                        <a href="#/clients" class="btn btn-primary btn-sm text-upper">
+                                            <small>Ver todos</small>
+                                        </a>
                                         <a ng-href="#/clients/new" class="btn btn-default btn-sm">
                                             <i class="fa fa-plus"></i>
                                         </a>
@@ -30,7 +33,7 @@
                                 <a href="javascript:void(0)" ng-click="showClient(o)">
                                     <header>
                                         <h4 class="h4 text-boulder">{{ o.name }}</h4>
-                                        <small class="text-upper text-silver">o{{ o.email }}</small>
+                                        <small class="text-upper text-silver">{{ o.email }}</small>
                                     </header>
                                 </a>
                             </li>
@@ -61,7 +64,7 @@
                                         <i class="icon-inline fa fa-envelope-o"></i> {{client.email}}
                                     </p>
                                     <p>
-                                        <i class="icon-inline fa fa-skype"></i> oreaseca
+                                        <i class="icon-inline fa fa-skype"></i> {{client.skype}}
                                     </p>
                                     <p>
                                         <i class="icon-inline flaticon-telephone60"></i> {{client.phone}}
@@ -69,16 +72,16 @@
                                 </div>
                                 <div class="col-xs-6">
                                     <p>
-                                        <i class="icon-inline fa fa-twitter"></i> @codeeducation
+                                        <i class="icon-inline fa fa-twitter"></i> {{client.twitter}}
                                     </p>
                                     <p>
-                                        <i class="icon-inline fa fa-facebook"></i> facebook.com/codeeducation
+                                        <i class="icon-inline fa fa-facebook"></i> {{client.facebook}}
                                     </p>
                                     <p>
-                                        <i class="icon-inline fa fa-google-plus"></i> Codeeducation
+                                        <i class="icon-inline fa fa-google-plus"></i> {{client.googleplus}}
                                     </p>
                                     <p>
-                                        <i class="icon-inline fa fa-search"></i> www.code.education
+                                        <i class="icon-inline fa fa-search"></i> {{client.site}}
                                     </p>
                                 </div>
                             </div>
@@ -104,7 +107,7 @@
                                     <tr ng-repeat="o in client.projects.data">
                                         <td>{{o.name}}</td>
                                         <td>{{o.due_date | dateBr}}</td>
-                                        <td>{{o.status}}</td>
+                                        <td>{{o.status.status}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

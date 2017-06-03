@@ -26,7 +26,8 @@ class ProjectNoteTransformer extends TransformerAbstract
             'title'      => $projectNote->title,
             'note'       => $projectNote->note,
             'created_at' => $projectNote->created_at,
-            'updated_at' => $projectNote->updated_at
+            'updated_at' => $projectNote->updated_at,
+            'excluido' => $projectNote->excluido
         ];
     }
 }

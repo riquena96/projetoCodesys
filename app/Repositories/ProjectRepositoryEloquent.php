@@ -2,6 +2,7 @@
 
 namespace CodeProject\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeProject\Repositories\ProjectRepository;
@@ -57,14 +58,20 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return false;
     }
 
-    public function findOwner($userId, $limit = null, $columns = array())
+    public function findOwner($userId, $limit = 9, $columns = array())
     {
         return $this->scopeQuery(function($query) use($userId){
-            return $query->select('projects.*')->where('projects.owner_id', '=', $userId);
+            return $query->select('projects.id', 'projects.owner_id', 'projects.client_id', 'projects.name', 'projects.description', 'projects.progress',
+                'projects.status', 'projects.due_date', 'projects.created_at', 'projects.updated_at', 'projects.excluido')
+                ->leftjoin('project_members', 'project_members.project_id', '=', 'projects.id')
+                ->groupBy('projects.id', 'projects.owner_id', 'projects.client_id', 'projects.name', 'projects.description', 'projects.progress',
+                    'projects.status', 'projects.due_date', 'projects.created_at', 'projects.updated_at', 'projects.excluido')
+                ->where('project_members.member_id', '=', $userId)
+                ->orWhere('projects.owner_id', '=', $userId);
         })->paginate($limit, $columns);
     }
 
-    /*public function findWithOwnerAndMember($userId)
+    public function findWithOwnerAndMember($userId)
     {
         return $this->scopeQuery(function($query) use($userId){
             return $query->select('projects.*')
@@ -72,7 +79,7 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
                 ->where('project_members.member_id', '=', $userId)
                 ->union($this->model->query()->getQuery()->where('owner_id', '=', $userId));
         })->all();
-    }*/
+    }
     
     public function presenter() 
     {

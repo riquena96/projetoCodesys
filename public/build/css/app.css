@@ -551,6 +551,9 @@
 .font-bold {
   font-weight: bold; }
 
+.font-bold-notas {
+  font-weight: bold !important; }
+
 .text-inline-block {
   display: inline-block; }
 
@@ -559,6 +562,9 @@
 
 .text-disabled {
   color: #90A3B0; }
+
+.task-padding {
+  padding-left: 20px; }
 
 /* -- Text style classes */
 /*
@@ -2731,15 +2737,27 @@ h3,
 .text-orange {
   color: #F39949; }
 
+.text-green {
+  color: #3c763d; }
+
+.text-red {
+  color: #a94442; }
+
+.text-yellow {
+  color: #f0ad4e; }
+
+.text-black {
+  color: #000; }
+
 .brand {
   display: inline-block;
   margin: 5px 0;
   padding-right: 5px;
   border-right: 1px solid #4B565F;
   font-size: 1.2em; }
-  @media (max-width: 767px) {
+  /*@media (max-width: 767px) {
     .brand img {
-      width: 100%; } }
+      width: 100%; } }*/
 
 .header-global {
   margin-bottom: 15px; }
@@ -2981,6 +2999,12 @@ and (min-width : 1824px) {
 @media
 only screen and (-webkit-min-device-pixel-ratio : 1.5),
 only screen and (min-device-pixel-ratio : 1.5) {
+}
+
+@media (max-width: 767px) {
+  .text-logo{
+    display: none;
+  }
 }
 
 

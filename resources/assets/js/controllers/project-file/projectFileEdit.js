@@ -13,7 +13,7 @@ angular.module('app.controllers')
                         id: null,
                         idFile: $scope.projectFile.id
                     }, $scope.projectFile, function () {
-                        $location.path('/project/' + $routeParams.id + '/files');
+                        $location.path('/projects/' + $routeParams.id + '/files');
                     });
                 }
             }

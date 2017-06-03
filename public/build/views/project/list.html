@@ -21,14 +21,15 @@
                             <td>{{o.name}}</td>
                             <td>{{o.client.data.name}}</td>
                             <td>{{o.progress}}</td>
-                            <td>{{o.status}}</td>
+                            <td>{{o.status.status}}</td>
                             <td>{{o.due_date | dateBr}}</td>
                             <td>
-                                <a ng-href="#/project/{{o.id}}/edit">Editar</a> |
-                                <a ng-href="#/project/{{o.id}}/remove">Excluir</a> |
-                                <a ng-href="#/project/{{o.id}}/notes">Notas</a> |
-                                <a ng-href="#/project/{{o.id}}/files">Arquivos</a> |
-                                <a ng-href="#/project/{{o.id}}/tasks">Tasks</a> |
+                                <a ng-href="#/projects/{{o.id}}/edit"><i class="fa fa-pencil-square-o spinner-md text-green" title="Editar"></i></a> |
+                                <a ng-href="#/projects/{{o.id}}/remove"><i class="fa fa-trash-o spinner-md text-danger" title="Excluir"></i></a> |
+                                <a ng-href="#/projects/{{o.id}}/notes"><i class="fa fa-sticky-note-o spinner-md text-yellow" title="Notas"></i></a> |
+                                <a ng-href="#/projects/{{o.id}}/files"><i class="fa fa-file-o spinner-md text-black" title="Arquivos"></i></a> |
+                                <a ng-href="#/projects/{{o.id}}/tasks"><i class="fa fa-tasks spinner-md text-gray" title="Tarefas"></i></a> |
+                                <a ng-href="#/projects/{{o.id}}/members"><i class="fa fa-user-plus spinner-md" title="Membros"></i></a>
                             </td>
                         </tr>
                         </tbody>

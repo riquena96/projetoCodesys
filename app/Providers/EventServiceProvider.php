@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'CodeProject\Events\SomeEvent' => [
-            'CodeProject\Listeners\EventListener',
+        'CodeProject\Events\enviarEmailOwnerProjeto' => [
+            'CodeProject\Listeners\EmailDeMembroDeProjeto',
         ],
     ];
 

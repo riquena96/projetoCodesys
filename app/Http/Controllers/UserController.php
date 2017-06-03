@@ -2,6 +2,7 @@
 
 namespace CodeProject\Http\Controllers;
 
+use CodeProject\Services\UserService;
 use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
@@ -13,9 +14,10 @@ class UserController extends Controller
 
     private $repository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $repository, UserService $service)
     {
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function authenticated(){
@@ -26,6 +28,16 @@ class UserController extends Controller
     public function index()
     {
         return $this->repository->all();
+    }
+
+    public function store(Request $request)
+    {
+        return $this->service->create($request->all());
+    }
+
+    public function update(Request $request, $id)
+    {
+        return $this->service->update($request->all(), $id);
     }
 
 }

@@ -2,14 +2,17 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Listagem de notas de projeto</div>
+                <div class="panel-heading">
+                    Listagem de notas de projeto
+                    <a ng-href="#/projects/{{project.id}}/notes/new" class="btn btn-primary col-md-offset-8">Nova nota</a>
+                </div>
                 <div class="panel-body">
                     <table class="table">
                         <thead>
                         <tr>
                             <th>Id</th>
                             <th>Titulo</th>
-                            <th>Nota</th>
+                            <th class="col-md-8">Nota</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
@@ -17,10 +20,11 @@
                         <tr ng-repeat="o in projectNotes">
                             <td>{{o.id}}</td>
                             <td>{{o.title}}</td>
-                            <td>{{o.note | limitTo: 25}}...</td>
+                            <td>{{o.note}}</td>
                             <td>
-                                <a ng-href="#/project/{{o.project_id}}/notes/{{o.id}}/edit">Editar</a> |
-                                <a ng-href="#/project/{{o.project_id}}/notes/{{o.id}}/remove">Excluir</a>
+                                <a href="javascript:void(0)" ng-click="print(o)"><i class="fa fa-print spinner-md"></i></a> |
+                                <a ng-href="#/projects/{{o.project_id}}/notes/{{o.id}}/edit"><i class="fa fa-pencil-square-o spinner-md text-green"></i></a> |
+                                <a ng-href="#/projects/{{o.project_id}}/notes/{{o.id}}/remove"><i class="fa fa-trash-o spinner-md text-danger"></i></a>
                             </td>
                         </tr>
                         </tbody>

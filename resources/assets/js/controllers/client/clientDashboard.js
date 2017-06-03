@@ -9,7 +9,7 @@ angular.module('app.controllers')
             Client.query({
                 orderBy: 'created_at',
                 sortedBy: 'desc',
-                limit: 8
+                limit: 12
             }, function (response) {
                 $scope.clients = response.data;
             });

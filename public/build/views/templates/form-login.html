@@ -9,7 +9,7 @@
         <label class="col-md-4 control-label">E-Mail Address</label>
         <div class="col-md-6">
             <input type="text" class="form-control" name="username" ng-model="user.username" required>
-            <div ng-messages="form.username.$error" class="help-block" ng-show="form.username.$touched">
+            <div ng-messages="form.username.$error" class="help-block" ng-show="form.username.$touched && form.name.$invalid">
                 <div ng-message="required">Campo Obrigatório</div>
             </div>
         </div>

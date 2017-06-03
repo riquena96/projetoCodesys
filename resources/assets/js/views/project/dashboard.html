@@ -13,7 +13,7 @@
                                         <a href="#/projects" class="btn btn-primary btn-sm text-upper">
                                             <small>Ver todos</small>
                                         </a>
-                                        <a href="#/project/new" class="btn btn-default btn-sm">
+                                        <a href="#/projects/new" class="btn btn-default btn-sm">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
@@ -25,8 +25,8 @@
                                         <h4 class="h4 text-boulder">{{o.name}}</h4>
                                         <small class="text-upper text-silver">{{o.client.data.name}}</small>
                                     </header>
-                                    <p class="text-danger status">
-                                        <i class="fa fa-circle"></i> Atrasado
+                                    <p class="{{o.status.class}} status">
+                                        <i class="fa fa-circle"></i> {{o.status.status}}
                                     </p>
                                 </a>
                             </li>
@@ -35,13 +35,13 @@
                     <div class="boxed-manager-main arrow">
                         <div class="boxed-manager-main-header">
                             <h4 class="h4">
-                                Nome do projeto <small>(90%)</small>
+                                {{project.name}} <small>({{project.progress}}%)</small>
 
                                 <div class="btn-group pull-right">
-                                    <a href="#/project/{{project.id}}/edit" class="btn btn-default btn-xs" title="Editar">
+                                    <a href="#/projects/{{project.id}}/edit" class="btn btn-default btn-xs" title="Editar">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a href="#/project/{{project.id}}/remove" class="btn btn-danger btn-xs" title="Apagar">
+                                    <a href="#/projects/{{project.id}}/remove" class="btn btn-danger btn-xs" title="Apagar">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </div>
@@ -71,12 +71,26 @@
                                     Arquivos
                                 </a>
                                 <a href=""
+                                   aria-controls="notas"
+                                   role="tab"
+                                   data-toggle="tab"
+                                   class="btn btn-default">
+                                    Notas
+                                </a>
+                                <a href=""
+                                   aria-controls="membros"
+                                   role="tab"
+                                   data-toggle="tab"
+                                   class="btn btn-default">
+                                    Membros
+                                </a>
+                                <!--a href=""
                                    aria-controls="anotacoes"
                                    role="tab"
                                    data-toggle="tab"
                                    class="btn btn-default">
                                     Anotações
-                                </a>
+                                </a-->
                             </div>
 
                             <br/>
@@ -84,19 +98,34 @@
 
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="detalhes">
-                                    <p>{{project.description}}</p>
-
+                                    <p ng-if="project.description.length > 0">{{project.description}}</p>
+                                    <div ng-if="project.description.length == 0">
+                                        <div class="alert alert-warning" role="alert">
+                                            Não há dados no momento
+                                        </div>
+                                    </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="tarefas">
-                                    <div class="task-list">
-                                        <h6 class="task-list-title">Requirements:</h6>
-                                        <ul class="task-list-body">
-                                            <li ng-repeat="o in project.tasks.data">
-                                                <label>
-                                                    <input type="checkbox" name="" id=""/>
-                                                    {{o.name}}
-                                                </label>
-                                            </li>
+                                    <div class="task-list"  ng-if="project.tasks.data.length > 0">
+                                            <h6 class="task-list-title">Tarefas: </h6>
+                                            <ul class="task-list-body">
+                                                <li ng-repeat="o in project.tasks.data">
+                                                    <label ng-if="o.status == 1" name="tarefa" id="tarefa">
+                                                        <input type="checkbox" id="checkboxTarefa" ng-click="alteraStatusTarefa(project.id, o.id)"/>
+                                                        {{o.name}}
+                                                    </label>
+                                                    <label ng-if="o.status == 2" class="checkbox disabled text-through text-disabled task-padding">
+                                                        <input type="checkbox" checked disabled name="" id="{{o.id}}"/>
+                                                        {{o.name}}
+                                                    </label>
+                                                </li>
+                                            </ul>
+
+                                    </div>
+                                    <div ng-if="project.tasks.data.length == 0">
+                                        <div class="alert alert-warning" role="alert">
+                                            Não há dados no momento
+                                        </div>
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="arquivos">
@@ -104,12 +133,26 @@
                                         <project-file-download
                                                 id-project="{{o.project_id}}" id-file="{{o.id}}" ng-repeat="o in project.files.data">
                                         </project-file-download>
-                                        <a ng-href="">
-                                            <img src="build/images/icons/ico-ai.png" alt="" />
-                                        </a>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane" id="anotacoes">
+                                <div role="tabpanel" class="tab-pane" id="notas">
+                                    <div class="task-list">
+                                        <ul class="task-list-body">
+                                            <li ng-repeat="o in project.notes.data">
+                                                <label class="font-bold-notas">{{o.title}}: </label>
+                                                <label>{{o.note}}</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="membros">
+                                    <ul class="task-list-body">
+                                        <li ng-repeat="o in project.members.data">
+                                            <p>{{o.name}}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--div role="tabpanel" class="tab-pane" id="anotacoes">
                                     <div class="notes-list">
                                         <div class="notes-list-item note-type-status-changed">
                                             <a href="" class="avatar avatar-xs">
@@ -124,7 +167,7 @@
                                                     The status on <strong>Sample Project</strong> change to <strong>Overdue</strong>
                                                 </p>
                                             </div>
-                                        </div> <!-- /notes-list-item -->
+                                        </div> <!-- /notes-list-item >
                                         <div class="notes-list-item note-type-task-completed">
                                             <a href="" class="avatar avatar-xs">
                                                 <img src="build/images/avatar.png" alt=""/>
@@ -139,7 +182,7 @@
                                                     Design the new landing page
                                                 </p>
                                             </div>
-                                        </div> <!-- /notes-list-item -->
+                                        </div> <!-- /notes-list-item >
                                         <div class="notes-list-item note-type-attachement">
                                             <a href="" class="avatar avatar-xs">
                                                 <img src="build/images/avatar.png" alt=""/>
@@ -155,7 +198,7 @@
                                                     </a>
                                                 </p>
                                             </div>
-                                        </div> <!-- /notes-list-item -->
+                                        </div> <!-- /notes-list-item >
                                         <div class="notes-list-item note-type-message">
                                             <a href="" class="avatar avatar-xs">
                                                 <img src="build/images/avatar.png" alt=""/>
@@ -170,9 +213,9 @@
                                                     Hi. John asked me to look at the changes. Everythins looks greate!
                                                 </p>
                                             </div>
-                                        </div> <!-- /notes-list-item -->
-                                    </div> <!-- /notes-list -->
-                                </div>
+                                        </div> <!-- /notes-list-item >
+                                    </div> <!-- /notes-list >
+                                </div-->
                             </div>
                         </div>
                     </div>
@@ -200,7 +243,7 @@
                                     </div>
                                 </div>
 
-                                Progresso esperado: 100%
+                                <!--Progresso esperado: 100%-->
                             </div>
                             <ul class="list-styled">
                                 <li class="list-styled-header text-upper text-center">

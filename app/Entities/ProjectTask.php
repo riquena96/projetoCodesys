@@ -15,7 +15,8 @@ class ProjectTask extends Model implements Transformable
         'project_id',
         'start_date',
         'due_date',
-        'status'
+        'status',
+        'excluido',
     ];
 
     public function project()

@@ -22,11 +22,23 @@ Route::post('oauth/access_token', function () {
 //OAuth verify
 Route::group(['middleware' => 'oauth'], function() {
 
+    //User
+    Route::group(['prefix' => 'user'], function () {
+
+        Route::get('user', 'UserController@index');
+        Route::post('user', 'UserController@store');
+        Route::put('user/{id}', 'UserController@update');
+        Route::get('user/{id}', 'UserController@show');
+        Route::delete('user/{id}', 'UserController@destroy');
+    });
+
     //Client
     Route::resource('client', 'ClientController', ['except' => 'create', 'edit']);
 
+
     //Project
     Route::resource('project', 'ProjectController', ['except' => 'create', 'edit']);
+
 
     //ProjectMember
     Route::resource('project.member', 'ProjectMemberController', ['except' => 'create', 'edit', 'update']);
@@ -54,6 +66,7 @@ Route::group(['middleware' => 'oauth'], function() {
         Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
         Route::post('{id}/task', 'ProjectTaskController@store');
         Route::put('{id}/task/{taskId}', 'ProjectTaskController@update');
+        Route::put('{id}/taskStatus/{taskId}', 'ProjectTaskController@updateStatus');
         Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');
     });
 

@@ -25,7 +25,16 @@ class ProjectFileTransformer extends TransformerAbstract
             'project_id' => $o->project_id,
             'name' => $o->name,
             'extension' => $o->extension,
-            'description' => $o->description
+            //'extension' => $this->imagemExtencao($o),
+            'description' => $o->description,
+            'excluido' => $o->excluido
         ];
+    }
+
+    public function imagemExtencao(ProjectFile $projectFile)
+    {
+        if ($projectFile->extension == 'jpg') {
+            return ['formato' => 'jpg', 'image' => 'build/images/icons/ico-jpg.png'];
+        }
     }
 }

@@ -11,6 +11,7 @@ class Project extends Model implements Transformable
     use TransformableTrait;
 
     protected $fillable = [
+        'id',
         'owner_id',
         'client_id',
         'name',
@@ -18,6 +19,7 @@ class Project extends Model implements Transformable
         'progress',
         'status',
         'due_date',
+        'excluido',
     ];
 
     public function notes()

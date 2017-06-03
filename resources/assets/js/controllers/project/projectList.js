@@ -4,7 +4,7 @@ angular.module('app.controllers')
 
             $scope.projects = [];
             $scope.totalProjects = 0;
-            $scope.projectsPerPage = 15;
+            $scope.projectsPerPage = 9;
 
             $scope.pagination = {
                 current: 1
@@ -17,6 +17,7 @@ angular.module('app.controllers')
             function getResultsPage(pageNumber) {
                 Project.query({
                     page: pageNumber,
+                    limit: $scope.projectsPerPage
                 }, function (data) {
                     $scope.projects = data.data;
                     $scope.totalProjects = data.meta.pagination.total;

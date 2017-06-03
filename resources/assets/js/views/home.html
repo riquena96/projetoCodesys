@@ -9,9 +9,9 @@
                                 <span>Projetos</span>
                             </h2>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-sm-4 col-xs-12">
                             <div class="tools">
-                                <div>
+                                <!--div>
                                     <label class="select-styled select-styled-default select-styled-sm">
                                         <select>
                                             <option selected="selected">Todos</option>
@@ -19,16 +19,16 @@
                                         </select>
                                     </label>
                                 </div>
-                                <div class="btn-group">
+                                <div-- class="btn-group">
                                     <a href="" class="btn btn-default btn-sm">
                                         <i class="fa fa-th"></i>
                                     </a>
                                     <a href="" class="btn btn-default btn-sm">
                                         <i class="fa fa-align-justify"></i>
                                     </a>
-                                </div>
+                                </div-->
 
-                                <a ng-href="#project/new" class="btn btn-default btn-sm">
+                                <a ng-href="#/projects/new" class="btn btn-default btn-sm">
                                     <i class="fa fa-plus"></i> Projeto
                                 </a>
                             </div> <!-- /tools -->
@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="clearfix">
+                                    <!--li class="clearfix">
                                         Progresso esperado:
 
                                         <div class="radial-progress radial-progress-xs radial-progress-warning progresso-inline pull-right"
@@ -88,15 +88,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li-->
                                     <li>
                                         Prazo: <span class="pull-right text-orange">{{o.due_date | dateBr}}</span>
                                     </li>
                                 </ul> <!-- /panel-list-unstyled -->
                             </div> <!-- /panel-body -->
-                            <div class="panel-footer panel-footer-xs no-border-top sazerac text-info font-bold">
-                                <i class="fa fa-circle"></i> {{o.status}}
-                                <span class="pull-right">+0</span>
+                            <div class="panel-footer panel-footer-xs no-border-top sazerac {{o.status.class}} font-bold">
+                                <i class="fa fa-circle"></i> {{o.status.status}}
+                                <!--span class="pull-right">+0</span-->
                             </div> <!-- /panel-footer panel-footer-xs sazerac -->
                         </div> <!-- /panel.panel-default -->
                     </div>

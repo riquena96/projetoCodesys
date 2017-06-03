@@ -5,6 +5,7 @@ namespace CodeProject\Http\Controllers;
 use Illuminate\Http\Request;
 use \CodeProject\Repositories\ProjectTaskRepository;
 use \CodeProject\Services\ProjectTaskService;
+use Illuminate\Support\Facades\DB;
 
 class ProjectTaskController extends Controller
 {
@@ -52,6 +53,11 @@ class ProjectTaskController extends Controller
         $data = $request->all();
         $data['project_id'] = $id;
         return $this->service->update($data, $idTask);
+    }
+
+    public function updateStatus(Request $request, $id, $idTask)
+    {
+        return DB::select("CALL alteraStatusTarefa($idTask)");
     }
 
 }

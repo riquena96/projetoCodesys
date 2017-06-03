@@ -27,7 +27,7 @@ class ProjectNoteController extends Controller
 
     public function index($id)
     {
-        return $this->repository->findWhere(['project_id' => $id]);
+        return $this->repository->findWhere(['project_id' => $id], ['excluido', '=', '0']);
     }
 
     public function store(Request $request, $id)
@@ -50,7 +50,7 @@ class ProjectNoteController extends Controller
 
     public function destroy($id, $noteId)
     {
-        return $this->service->delete($noteId);
+        return DB::select("CALL excluiNotaProjeto($noteId)");
     }
 
     public function update(Request $request, $id, $noteId)

@@ -26,11 +26,12 @@ class ProjectTransformer extends TransformerAbstract
             'name' => $project->name,
             'description' => $project->description,
             'progress' =>(int) $project->progress,
-            'status' =>  $project->status,
+            'status' =>  $this->statusNomeExibir($project),
             'due_date' => $project->due_date,
             'is_member' => $project->owner_id != \Authorizer::getResourceOwnerId(),
             'tasks_count' => $project->tasks->count(),
             'tasks_opened' => $this->countTasksOpened($project),
+            'excluido' => $project->excluido
         ];
     }
 
@@ -60,6 +61,17 @@ class ProjectTransformer extends TransformerAbstract
             return $this->item($project->client, new ClientTransformer());
         //}
         //return null;
+    }
+
+    public function statusNomeExibir(Project $project)
+    {
+        if ($project->status == 1) {
+            return ['status' => 'Não iniciado', 'class' => 'text-gray'];
+        } else if ($project->status == 2) {
+            return ['status' => 'Iniciado', 'class' => 'text-info'];
+        } else if ($project->status == 3){
+            return ['status' => 'Concluído', 'class' => 'text-success'];
+        }
     }
 
     public function countTasksOpened(Project $project)

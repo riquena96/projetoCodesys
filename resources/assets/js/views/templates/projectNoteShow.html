@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device, initial-scale=1">
+        <title>Impressão de Nota de Projeto</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div ng-controller="ProjectNoteShowController">
+            <h1>CodesysIT Solutions</h1>
+            <h3>Nota de projeto</h3>
+            <dl>
+                <dt>Titulo</dt>
+                <dd>{{note.title}}</dd>
+                <dt>Nota</dt>
+                <dd>{{note.note}}</dd>
+            </dl>
+        </div>
+    </body>
+</html>

@@ -13,7 +13,13 @@ class Client extends Model
         'email',
         'phone',
         'address',
-        'obs'
+        'obs',
+        'excluido',
+        'skype',
+        'twitter',
+        'facebook',
+        'googleplus',
+        'site'
     ];
 
     public function project(){

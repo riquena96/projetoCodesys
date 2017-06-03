@@ -2,7 +2,9 @@
 
 namespace CodeProject\Providers;
 
+use CodeProject\Entities\ProjectMember;
 use CodeProject\Entities\ProjectTask;
+use CodeProject\Events\enviarEmailOwnerProjeto;
 use CodeProject\Events\TaskWasIncluded;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
 
         ProjectTask::updated(function ($task) {
             Event::fire(new TaskWasIncluded($task));
+        });
+
+        ProjectMember::created(function($member) {
+            Event::fire(new enviarEmailOwnerProjeto($member));
         });
     }
 

@@ -2,9 +2,11 @@
 
 namespace CodeProject\Http\Controllers;
 
+use CodeProject\Repositories\ProjectRepository;
 use Illuminate\Http\Request;
 use \CodeProject\Repositories\ProjectMemberRepository;
 use \CodeProject\Services\ProjectMemberService;
+use Illuminate\Support\Facades\DB;
 
 class ProjectMemberController extends Controller {
 
@@ -18,8 +20,9 @@ class ProjectMemberController extends Controller {
      */
     private $repository;
 
-    public function __construct(ProjectMemberRepository $repository, ProjectMemberService $service) {
+    public function __construct(ProjectMemberRepository $repository, ProjectRepository $projectRepository, ProjectMemberService $service) {
         $this->repository = $repository;
+        $this->projectRepository = $projectRepository;
         $this->service = $service;
         $this->middleware('check.project.owner', ['except' => ['index', 'show']]);
         $this->middleware('check.project.permission', ['except' => ['store', 'destroy']]);
@@ -27,14 +30,16 @@ class ProjectMemberController extends Controller {
 
     public function index($id)
     {
-        return $this->repository->findWhere(['project_id' => $id]);
+        return $this->repository->findWhere(['project_id' => $id, ['excluido', '=', '0']]);
     }
 
     public function store(Request $request, $id)
     {
         $data = $request->all();
         $data['project_id'] = $id;
-        return $this->service->create($data);
+        $membroInserido = $this->service->create($data);
+        $projeto = $this->projectRepository->find($id);
+        return $projeto;
     }
 
     public function show($id, $idProjectMember)
@@ -44,7 +49,8 @@ class ProjectMemberController extends Controller {
 
     public function destroy($id, $idProjectMember)
     {
-        $this->service->delete($idProjectMember);
+        DB::select("CALL excluiMembroProjeto($idProjectMember)");
+        return 200;
     }
 
 }

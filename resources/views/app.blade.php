@@ -2,6 +2,8 @@
 <html lang="en" ng-app="myApp">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device, initial-scale=1">
     <title>Laravel</title>
 
     @if(Config::get('app.debug'))
@@ -103,9 +105,11 @@
     <script src="{{asset('build/js/services/url.js')}}"></script>
     <script src="{{asset('build/js/services/oauthFixInterceptor.js')}}"></script>
     <script src="{{asset('build/js/services/client.js')}}"></script>
+    <script src="{{asset('build/js/services/projetoUsuario.js')}}"></script>
     <script src="{{asset('build/js/services/project.js')}}"></script>
     <script src="{{asset('build/js/services/projectNote.js')}}"></script>
     <script src="{{asset('build/js/services/projectTask.js')}}"></script>
+    <script src="{{asset('build/js/services/projectTaskStatus.js')}}"></script>
     <script src="{{asset('build/js/services/projectMember.js')}}"></script>
     <script src="{{asset('build/js/services/projectFile.js')}}"></script>
     <script src="{{asset('build/js/services/user.js')}}"></script>

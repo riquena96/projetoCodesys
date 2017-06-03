@@ -5,6 +5,7 @@ namespace CodeProject\Http\Controllers;
 use Illuminate\Http\Request;
 use \CodeProject\Repositories\ProjectFileRepository;
 use \CodeProject\Services\ProjectFileService;
+use Illuminate\Support\Facades\DB;
 
 class ProjectFileController extends Controller {
 
@@ -26,7 +27,7 @@ class ProjectFileController extends Controller {
 
     public function index($id)
     {
-        return $this->repository->findWhere(['project_id' => $id]);
+        return $this->repository->findWhere(['project_id' => $id], ['excluido', '=', '0']);
     }
 
     public function store(Request $request)
@@ -64,7 +65,7 @@ class ProjectFileController extends Controller {
     public function destroy($id, $projectId)
     {
 
-        if($this->repository->skipPresenter()->find($projectId)->delete()){
+        if(DB::select("CALL excluiArquivoProjeto($projectId)")){
             return ['success'=>true, 'message'=>'Arquivo '.$projectId.' excluído com sucesso!'];
         }
         return ['error'=>true, 'message'=>'Não foi possível excluir o arquivo '.$projectId];

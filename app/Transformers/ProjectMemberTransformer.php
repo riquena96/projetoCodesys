@@ -24,6 +24,7 @@ class ProjectMemberTransformer extends TransformerAbstract
         return [
             'id' => $member->id,
             'project_id' => $member->project_id,
+            'excluido' => $member->excluido
         ];
     }
 

@@ -14,6 +14,7 @@ class ProjectNote extends Model implements Transformable
         'project_id',
         'title',
         'note',
+        'excluido',
     ];
     
     public function project()

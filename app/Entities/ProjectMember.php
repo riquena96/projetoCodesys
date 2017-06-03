@@ -13,6 +13,7 @@ class ProjectMember extends Model implements Transformable
     protected $fillable = [
         'project_id',
         'member_id',
+        'excluido',
     ];
 
     public function project()

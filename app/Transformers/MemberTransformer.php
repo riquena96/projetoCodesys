@@ -19,6 +19,8 @@ class MemberTransformer extends TransformerAbstract
         return [
             'member_id' => $member->id,
             'name' => $member->name,
+            'email' => $member->email,
+            'excluido' => $member->excluido
         ];
     }
     

@@ -12,7 +12,7 @@ angular.module('app.controllers')
                     id: $routeParams.id,
                     idProjectMember: $routeParams.idProjectMember,
                 }).then(function () {
-                    $location.path('/project/' + $routeParams.id + '/members');
+                    $location.path('/projects/' + $routeParams.id + '/members');
                 });
             }
 
