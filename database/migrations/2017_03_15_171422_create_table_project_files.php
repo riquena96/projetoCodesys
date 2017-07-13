@@ -18,6 +18,7 @@ class CreateTableProjectFiles extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('extension');
+            $table->binary('excluido');
             $table->timestamps();
         });
     }

@@ -57,7 +57,7 @@ class ProjectTaskController extends Controller
 
     public function updateStatus(Request $request, $id, $idTask)
     {
-        return DB::select("CALL alteraStatusTarefa($idTask)");
+        return DB::select("update project_files set excluido = 1 where id = $idTask");
     }
 
 }

@@ -129,28 +129,45 @@
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="arquivos">
-                                    <div class="files-list-blocks">
+                                    <div class="files-list-blocks"  ng-if="project.files.data.length > 0">
                                         <project-file-download
                                                 id-project="{{o.project_id}}" id-file="{{o.id}}" ng-repeat="o in project.files.data">
                                         </project-file-download>
                                     </div>
+                                    <div ng-if="project.files.data.length == 0">
+                                        <div class="alert alert-warning" role="alert">
+                                            Não há dados no momento
+                                        </div>
+                                    </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="notas">
-                                    <div class="task-list">
-                                        <ul class="task-list-body">
+                                    <!--div class="task-list"-->
+                                        <ul class="task-list-body" ng-if="project.notes.data.length > 0">
                                             <li ng-repeat="o in project.notes.data">
                                                 <label class="font-bold-notas">{{o.title}}: </label>
                                                 <label>{{o.note}}</label>
                                             </li>
                                         </ul>
-                                    </div>
+                                        <div ng-if="project.notes.data.length == 0">
+                                            <div class="alert alert-warning" role="alert">
+                                                Não há dados no momento
+                                            </div>
+                                        </div>
+                                    <!--/div-->
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="membros">
-                                    <ul class="task-list-body">
-                                        <li ng-repeat="o in project.members.data">
-                                            <p>{{o.name}}</p>
-                                        </li>
-                                    </ul>
+                                    <div class="task-list">
+                                        <ul class="task-list-body" ng-if="project.members.data.length > 0">
+                                            <li ng-repeat="o in project.members.data">
+                                                <p>{{o.name}}</p>
+                                            </li>
+                                        </ul>
+                                        <div ng-if="project.members.data.length == 0">
+                                            <div class="alert alert-warning" role="alert">
+                                                Não há dados no momento
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!--div role="tabpanel" class="tab-pane" id="anotacoes">
                                     <div class="notes-list">

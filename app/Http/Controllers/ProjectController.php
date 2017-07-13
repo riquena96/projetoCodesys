@@ -81,7 +81,7 @@ class ProjectController extends Controller {
         if($this->service->checkProjectOwner($id) == false) {
             return ['error' => 'Access Forbidden'];
         }
-        DB::select("CALL excluiProjeto($id)");
+        DB::select("update projetos set excluido = 1 where id = $id");
         return 200;
     }
 

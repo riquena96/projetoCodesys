@@ -28,6 +28,7 @@ class UserTransformer extends TransformerAbstract
             'remember_token' => $user->remember_token,
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at,
+            'perfil' => $user->perfil,
         ];
     }
 }

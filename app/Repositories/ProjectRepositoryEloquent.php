@@ -67,7 +67,8 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
                 ->groupBy('projects.id', 'projects.owner_id', 'projects.client_id', 'projects.name', 'projects.description', 'projects.progress',
                     'projects.status', 'projects.due_date', 'projects.created_at', 'projects.updated_at', 'projects.excluido')
                 ->where('project_members.member_id', '=', $userId)
-                ->orWhere('projects.owner_id', '=', $userId);
+                ->orWhere('projects.owner_id', '=', $userId)
+                ->where('projects.excluido', '=', '0');
         })->paginate($limit, $columns);
     }
 

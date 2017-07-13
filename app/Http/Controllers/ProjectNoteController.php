@@ -50,7 +50,7 @@ class ProjectNoteController extends Controller
 
     public function destroy($id, $noteId)
     {
-        return DB::select("CALL excluiNotaProjeto($noteId)");
+        return DB::select("update project_files set excluido = 1 where id = $noteId");
     }
 
     public function update(Request $request, $id, $noteId)

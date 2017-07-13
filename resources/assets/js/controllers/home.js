@@ -30,4 +30,12 @@ angular.module('app.controllers')
                 },300);
             }
         );
+
+        $scope.styleList = function () {
+            $('.box-project').removeClass("col-sm-4").addClass("col-sm-10");
+        };
+
+        $scope.styleGrid = function () {
+            $('.box-project').removeClass("col-sm-10").addClass("col-sm-4");
+        };
     }]);

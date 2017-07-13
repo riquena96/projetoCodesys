@@ -49,7 +49,7 @@ class ProjectMemberController extends Controller {
 
     public function destroy($id, $idProjectMember)
     {
-        DB::select("CALL excluiMembroProjeto($idProjectMember)");
+        DB::select("update project_files set excluido = 1 where id = $idProjectMember");
         return 200;
     }
 

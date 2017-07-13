@@ -20,6 +20,12 @@ class CreateClientsTable extends Migration {
             $table->string('phone');
             $table->text('address');
             $table->string('obs');
+            $table->binary('excluido');
+            $table->string('skype');
+            $table->string('twitter');
+            $table->string('facebook');
+            $table->string('googleplus');
+            $table->string('site');
             $table->timestamps();
         });
     }

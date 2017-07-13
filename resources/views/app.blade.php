@@ -13,7 +13,7 @@
         <link href="{{ asset('build/css/app.css')}}" rel="stylesheet"/>
         <link href="{{ asset('build/css/vendor/angular-ui-notification.min.css')}}" rel="stylesheet"/>
     @else
-        <link href="{{ elixir('css/all.css')}}" rel="stylesheet"/>
+        <link href="{{ mix('css/all.css')}}" rel="stylesheet"/>
 @endif
 <!-- Fonts -->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -50,6 +50,7 @@
     <script src="{{ asset('build/js/vendor/pusher.min.js')}}"></script>
     <script src="{{ asset('build/js/vendor/pusher-angular.min.js')}}"></script>
     <script src="{{ asset('build/js/vendor/angular-ui-notification.min.js')}}"></script>
+    <script src="{{ asset('build/js/vendor/blob-util.min.js')}}"></script>
 
     <script src="{{asset('build/js/app.js')}}"></script>
 
@@ -57,6 +58,7 @@
     <script src="{{asset('build/js/controllers/menu.js')}}"></script>
     <script src="{{asset('build/js/controllers/login.js')}}"></script>
     <script src="{{asset('build/js/controllers/loginModal.js')}}"></script>
+    <script src="{{asset('build/js/controllers/refreshModal.js')}}"></script>
     <script src="{{asset('build/js/controllers/home.js')}}"></script>
     <script src="{{asset('build/js/controllers/homeDashboard.js')}}"></script>
 
@@ -91,6 +93,9 @@
     <script src="{{asset('build/js/controllers/project-member/projectMemberList.js')}}"></script>
     <script src="{{asset('build/js/controllers/project-member/projectMemberRemove.js')}}"></script>
 
+    <script src="{{asset('build/js/controllers/user/userList.js')}}"></script>
+    <script src="{{asset('build/js/controllers/user/userNew.js')}}"></script>
+
     {{-- Directives --}}
     <script src="{{asset('build/js/directives/projectFileDownload.js')}}"></script>
     <script src="{{asset('build/js/directives/loginForm.js')}}"></script>
@@ -100,6 +105,7 @@
 
     {{-- Filters --}}
     <script src="{{asset('build/js/filters/date-br.js')}}"></script>
+    <script src="{{asset('build/js/filters/calc-days.js')}}"></script>
 
     {{-- Services --}}
     <script src="{{asset('build/js/services/url.js')}}"></script>
@@ -113,8 +119,9 @@
     <script src="{{asset('build/js/services/projectMember.js')}}"></script>
     <script src="{{asset('build/js/services/projectFile.js')}}"></script>
     <script src="{{asset('build/js/services/user.js')}}"></script>
+    <script src="{{asset('build/js/services/users.js')}}"></script>
 @else
-    <script src="{{elixir('js/all.js')}}"></script>
+    <script src="{{mix('js/all.js')}}"></script>
 @endif
 </body>
 </html>

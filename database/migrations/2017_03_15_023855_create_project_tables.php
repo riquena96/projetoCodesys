@@ -24,6 +24,7 @@ class CreateProjectTables extends Migration
             $table->smallInteger('progress')->unsigned();
             $table->smallInteger('status')->unsigned();
             $table->date('due_date');
+            $table->binary('excluido');
             $table->timestamps();
         });
     }

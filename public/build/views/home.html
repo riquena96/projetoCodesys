@@ -18,15 +18,15 @@
                                             <option ng-repeat="o in projects">{{o.name}}</option>
                                         </select>
                                     </label>
-                                </div>
-                                <div-- class="btn-group">
-                                    <a href="" class="btn btn-default btn-sm">
+                                </div-->
+                                <div class="btn-group">
+                                    <a href="javascript:void(0)" ng-click="styleGrid()" class="btn btn-default btn-sm">
                                         <i class="fa fa-th"></i>
                                     </a>
-                                    <a href="" class="btn btn-default btn-sm">
+                                    <a href="javascript:void(0)" ng-click="styleList()" class="btn btn-default btn-sm">
                                         <i class="fa fa-align-justify"></i>
                                     </a>
-                                </div-->
+                                </div>
 
                                 <a ng-href="#/projects/new" class="btn btn-default btn-sm">
                                     <i class="fa fa-plus"></i> Projeto
@@ -37,7 +37,7 @@
                 </header> <!-- /header-internal -->
 
                 <div class="row">
-                    <div class="col-sm-4" ng-repeat="o in projects">
+                    <div class="col-sm-4 box-project" ng-repeat="o in projects">
                         <div class="panel panel-default panel-stacked">
                             <div class="panel-heading bg-white no-border-bottom text-boulder">
                                 <h3 class="h4 text-boulder">{{o.name}}</h3>
@@ -96,7 +96,7 @@
                             </div> <!-- /panel-body -->
                             <div class="panel-footer panel-footer-xs no-border-top sazerac {{o.status.class}} font-bold">
                                 <i class="fa fa-circle"></i> {{o.status.status}}
-                                <!--span class="pull-right">+0</span-->
+                                <span class="pull-right"> {{o.due_date | calcDays}} </span>
                             </div> <!-- /panel-footer panel-footer-xs sazerac -->
                         </div> <!-- /panel.panel-default -->
                     </div>

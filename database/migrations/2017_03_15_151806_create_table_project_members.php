@@ -19,6 +19,7 @@ class CreateTableProjectMembers extends Migration
             $table->foreign('project_id')->references('id')->on('projects');
             $table->integer('member_id')->unsigned();
             $table->foreign('member_id')->references('id')->on('users');
+            $table->binary('excluido');
             $table->timestamps();
         });
     }

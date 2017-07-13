@@ -42,12 +42,14 @@ class UserService {
             $this->validator->with($data)->passesOrFail();
 
             $token = str_random(10);
+            $perfil = '1';
 
             $usuario = [
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
-                $token
+                //'remember_token' => $token,
+                'perfil' => $perfil
             ];
 
             return $this->repository->create($usuario);

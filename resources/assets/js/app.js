@@ -5,7 +5,7 @@ var app = angular.module('myApp', [
     'mgcrea.ngStrap.navbar', 'ui.bootstrap.dropdown', 'pusher-angular', 'ui-notification',
 ]);
 
-angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
+angular.module('app.controllers', ['ngMessages']);
 angular.module('app.filters', []);
 angular.module('app.directives', []);
 angular.module('app.services', ['ngResource']);
@@ -203,6 +203,16 @@ app.config([
             .when('/projects/:id/member/:idProjectMember/remove', {
                 templateUrl: 'build/views/project-member/remove.html',
                 controller: 'ProjectMemberRemoveController'
+            })
+            .when('/users', {
+                templateUrl: 'build/views/user/list.html',
+                controller: 'UserListController',
+                title: 'Usuários'
+            })
+            .when('/users/new', {
+                templateUrl: 'build/views/user/new.html',
+                controller: 'UserNewController',
+                title: 'Usuários'
             });
 
 
@@ -275,8 +285,8 @@ app.run(['$rootScope', '$location', '$http', '$modal', '$cookies', '$pusher', 'h
                 httpBuffer.append(data.rejection.config, data.deferred);
                 if(!$rootScope.loginModalOpened){
                     var modalInstance = $modal.open({
-                        templateUrl: 'build/views/templates/loginModal.html',
-                        controller: 'LoginModalController'
+                        templateUrl: 'build/views/templates/refreshModal.html',
+                        controller: 'RefreshModalController'
                     });
                     $rootScope.loginModalOpened = true;
                 }
